@@ -1,0 +1,36 @@
+on: [push, pull_request]
+
+name: ci
+
+jobs:
+  test:
+    name: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: display python version
+        run: python -c "import sys; print(sys.version)"
+      - name: install dependencies
+        env:
+          DEFAULT_PYTHON_VERSION: ${{ matrix.python-version }}
+        run:  make poetry/install
+      - name: check code style
+        run: make build/code-style
+      - name: run unit tests
+        run: make test
+      - name: upload metrics to Codecov
+        uses: codecov/codecov-action@v1.0.6
+        with:
+          name: codecov-umbrella
+          file: ./coverage.xml
+          flags: unittests
+          fail_ci_if_error: true

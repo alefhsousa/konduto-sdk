@@ -1,9 +1,9 @@
 SERVICE_NAME ?= konduto-sdk
-PYTHON_BIN := $(VENV_DIR)/bin
+POETRY_BIN := $(HOME)/.poetry/bin
 MIN_CODE_COVERAGE ?= 80
 PEPS_TO_IGNORE ?= E501
 POETRY_VERSION := $(shell poetry --version 2>/dev/null)
-DEFAULT_PYTHON_VERSION := 3.8
+DEFAULT_PYTHON_VERSION ?= 3.8
 
 
 poetry/setup:
@@ -15,23 +15,19 @@ else
 endif
 
 poetry/env:
-	poetry env use $(DEFAULT_PYTHON_VERSION)
+	$(POETRY_BIN)/poetry env use $(DEFAULT_PYTHON_VERSION)
 
 poetry/install: poetry/setup poetry/env
-	. $$(dirname $$(poetry run which python))/activate; \
-	poetry install
-
-setup: poetry/setup
-	pip3 install virtualenv
-	python3 -m virtualenv $(VENV_DIR)
-	$(PYTHON_BIN)/pip3 install pipenv
-	$(PYTHON_BIN)/pipenv install
+	. $$(dirname $$($(POETRY_BIN)/poetry run which python))/activate; \
+	$(POETRY_BIN)/poetry install
 
 build/code-style:
+	. $$(dirname $$($(POETRY_BIN)/poetry run which python))/activate; \
 	pycodestyle --statistics --ignore=$(PEPS_TO_IGNORE) --count konduto/
 
-test/run: build/code-style
-	pytest tests --cov=konduto --no-cov-on-fail --cov-fail-under=$(MIN_CODE_COVERAGE)
+test/run:
+	. $$(dirname $$($(POETRY_BIN)/poetry run which python))/activate; \
+	pytest tests --cov=konduto --cov-report=term --cov-report=xml --no-cov-on-fail --cov-fail-under=$(MIN_CODE_COVERAGE)
 
-test: build/code-style test/run
+test: test/run
 

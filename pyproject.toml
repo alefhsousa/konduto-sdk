@@ -5,6 +5,7 @@ description = "SDK to let the process easier to integrate your application with 
 authors = ["Alefh Sousa <alefh.sousa@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+keywords = ["konduto", "sdk", "api", "konduto SDK"]
 homepage = "https://github.com/alefhsousa/konduto-sdk"
 repository = "https://github.com/alefhsousa/konduto-sdk"
 classifiers=[
@@ -27,7 +28,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 dacite = "^1.3.0"
-pyyaml = "^5.3.1"
 requests = "^2.16.0"
 
 [tool.poetry.dev-dependencies]

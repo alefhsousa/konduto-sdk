@@ -1,0 +1,8 @@
+.pytest_cache
+.DS_Store
+__pycache__
+coverage.xml
+htmlcov
+.coverage
+.idea
+.konduto_sdk.egg

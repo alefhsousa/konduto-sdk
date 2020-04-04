@@ -1,0 +1,2 @@
+[run]
+omit = .tywin/*,venv/*,.cache/*,terraform/*,alembic/*,config/*,tests/*,vendored/*,deploy*

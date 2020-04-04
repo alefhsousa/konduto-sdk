@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "konduto-sdk"
+version = "0.1.0"
+description = "SDK to let the process easier to integrate your application with konduto rest API"
+authors = ["Alefh Sousa <alefh.sousa@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/alefhsousa/konduto-sdk"
+repository = "https://github.com/alefhsousa/konduto-sdk"
+classifiers=[
+    'Development Status :: 4 - Beta',
+    'Environment :: Web Environment',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    'Topic :: Software Development :: Libraries :: Python Modules'
+]
+packages = [
+    {include = "konduto"}
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.6"
+dacite = "^1.3.0"
+pyyaml = "^5.3.1"
+requests = "^2.16.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.1"
+pycodestyle = "^2.5.0"
+safety = "^1.8.7"
+pytest-cov = "^2.8.1"
+factory-boy = "^2.12.0"
+requests-mock = "^1.7.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

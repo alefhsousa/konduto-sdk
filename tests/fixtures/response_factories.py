@@ -1,4 +1,5 @@
 import random
+import secrets
 import uuid
 
 import factory
@@ -7,8 +8,8 @@ from faker import Faker
 
 from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.response.order_response import OrderResponse, Recommendation
-from tests.fixtures.request_factories import CustomerFactory, BillingFactory, ShippingFactory, ShoppingCartFactory, \
-    PaymentFactory, SellerFactory, ProductFactory
+from tests.fixtures.request_factories import CustomerFactory, BillingFactory, ShippingFactory, PaymentFactory, \
+    SellerFactory, ProductFactory
 
 fake = Faker()
 
@@ -20,8 +21,8 @@ class OrderResponseFactory(factory.Factory):
     id = lazy_attribute(lambda o: uuid.uuid4())
     score = lazy_attribute(lambda o: fake.pyfloat(left_digits=None, right_digits=2,
                                                   positive=True, min_value=0, max_value=1))
-    recommendation = lazy_attribute(lambda o: random.choice(list(Recommendation)))
-    status = lazy_attribute(lambda o: random.choice(list(OrderStatus)))
+    recommendation = lazy_attribute(lambda o: secrets.choice([value for value in Recommendation]))
+    status = lazy_attribute(lambda o: secrets.choice([value for value in OrderStatus]))
     visitor = lazy_attribute(lambda o: uuid.uuid4())
     customer = SubFactory(CustomerFactory)
     payment = factory.List([factory.SubFactory(PaymentFactory) for _ in range(2)])

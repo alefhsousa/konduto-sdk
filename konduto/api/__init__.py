@@ -23,6 +23,15 @@ def _handle_result(konduto_response: Response) -> Either:
 
 
 class BaseClient:
+    """
+    The :class:`BaseClient <BaseClient>` object.
+
+    Attributes
+    ----------
+    private_key : str
+        The key to access resources from Konduto.
+
+    """
 
     def __new__(cls, *args, **kwargs):
         self = super().__new__(cls)

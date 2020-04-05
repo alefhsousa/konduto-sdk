@@ -57,7 +57,7 @@ class TestOrderClient:
             response = order_client.order.create(order)
             assert response
             assert isinstance(response, OrderResponse)
-            assert response.analyze
+            assert response.analyze is True
             assert response.id == expected_response.id
             assert response.recommendation == expected_response.recommendation
             assert response.score == expected_response.score
@@ -72,7 +72,7 @@ class TestOrderClient:
             response = order_client.order.create(order)
             assert response
             assert isinstance(response, Error)
-            assert response.status == MOCKED_ERROR_RESPONSE['status']
+            assert MOCKED_ERROR_RESPONSE['status'] == response.status
 
     def test_should_return_mapped_error_with_id_when_internal_error_happens(self, order_client):
         order = OrderRequestFactory()

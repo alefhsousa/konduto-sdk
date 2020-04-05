@@ -7,7 +7,16 @@ def _map_to_error_if_failed(result: Either):
 
 
 class KondutoHttpClient:
+    """
+        The :class:`KondutoHttpClient <KondutoHttpClient>` object abstraction of http client.
 
+
+        Attributes
+        ----------
+        client : :class:`BaseClient <BaseClient>`
+            Class with attributes to acess Konduto.
+
+    """
     def __init__(self, client=None):
         self.client = client
 

@@ -30,7 +30,6 @@ class Either(object):
 class Right(Either):
 
     """Represents a successful computation."""
-
     @property
     def is_left(self):
         return False
@@ -40,16 +39,17 @@ class Right(Either):
         return True
 
     def __eq__(self, other):
+        """Returns True if all values are equals."""
         return isinstance(other, Right) and self._value == other._value
 
     def __repr__(self):
+        """Returns state of the class."""
         return "Right %s" % self._value
 
 
 class Left(Either):
 
     """Represents a computation that has failed."""
-
     @property
     def is_left(self):
         return True
@@ -59,7 +59,9 @@ class Left(Either):
         return False
 
     def __eq__(self, other):
+        """Returns True if all values are equals."""
         return isinstance(other, Left) and self._value == other._value
 
     def __repr__(self):
+        """Returns state of the class."""
         return "Left %s" % self._value

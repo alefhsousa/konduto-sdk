@@ -1,4 +1,3 @@
-import random
 import secrets
 import uuid
 
@@ -8,6 +7,7 @@ from faker import Faker
 
 from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.response.order_response import OrderResponse, Recommendation
+from konduto.api.resources.response.restrict_email_response import RestrictEmailResponse
 from tests.fixtures.request_factories import CustomerFactory, BillingFactory, ShippingFactory, PaymentFactory, \
     SellerFactory, ProductFactory
 
@@ -39,3 +39,15 @@ class OrderResponseFactory(factory.Factory):
     messages_exchanged = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))
     purchased_at = lazy_attribute(lambda o: fake.date_time(tzinfo=None, end_datetime=None))
     seller = SubFactory(SellerFactory)
+
+
+class RestrictEmailResponseFactory(factory.Factory):
+    class Meta:
+        model = RestrictEmailResponse
+
+    uri = lazy_attribute(lambda o: f'/v1/blacklist/email/{fake.email()}')
+    expires_at = lazy_attribute(lambda o: fake.date_object())
+    created_at = lazy_attribute(lambda o: fake.date_time(tzinfo=None, end_datetime=None))
+    updated_at = lazy_attribute(lambda o: fake.date_time(tzinfo=None, end_datetime=None))
+    email_address = lazy_attribute(lambda o: fake.email())
+    message = lazy_attribute(lambda o: fake.text())

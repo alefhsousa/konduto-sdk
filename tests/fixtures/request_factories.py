@@ -10,6 +10,7 @@ from konduto.api.resources.billing import Billing
 from konduto.api.resources.customer import Customer
 from konduto.api.resources.payment import Payment, PaymentType, PaymentStatus
 from konduto.api.resources.requests.order_request import OrderRequest
+from konduto.api.resources.requests.restrict_email_request import RestrictEmailRequest
 from konduto.api.resources.seller import Seller
 from konduto.api.resources.shipping import Shipping
 from konduto.api.resources.shopping_cart import Product, ShoppingCart
@@ -121,3 +122,11 @@ class OrderRequestFactory(factory.Factory):
     messages_exchanged = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))
     purchased_at = lazy_attribute(lambda o: fake.date_time(tzinfo=None, end_datetime=None))
     seller = SubFactory(SellerFactory)
+
+
+class RestrictEmailRequestFactory(factory.Factory):
+    class Meta:
+        model = RestrictEmailRequest
+
+    email_address = lazy_attribute(lambda o: fake.email())
+    days_to_expire = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))

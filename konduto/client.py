@@ -20,6 +20,7 @@ class KondutoClient(BaseClient):
     """
 
     order = api.OrderClientKonduto()
+    restrict = api.RestrictClientKonduto()
 
     def __init__(self, private_key: str = None):
         super().__init__(private_key)

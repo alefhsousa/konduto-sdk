@@ -12,20 +12,9 @@ from konduto.api.resources.requests.order_status_request import OrderStatusReque
 from konduto.api.resources.response.error import Error
 from konduto.api.resources.response.order_response import OrderResponse, Recommendation
 from konduto import KONDUTO_DOMAIN
+from konduto.infrastructure.parsers import datetime_str_to_datetime, float_to_decimal, date_str_to_date
 
 ENDPOINT = f'{KONDUTO_DOMAIN}v1/orders'.strip('/')
-
-
-def _date_str_to_date(date_str):
-    return datetime.strptime(date_str, '%Y-%m-%d').date()
-
-
-def _float_to_decimal(float_number):
-    return Decimal(str(float_number))
-
-
-def _datetime_str_to_datetime(datetime_str):
-    return datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M:%SZ')
 
 
 class OrderClientKonduto(KondutoHttpClient):
@@ -56,8 +45,8 @@ class OrderClientKonduto(KondutoHttpClient):
         if result.is_right:
             return from_dict(data_class=OrderResponse, data=result.value,
                              config=Config(cast=[Enum],
-                                           type_hooks={date: _date_str_to_date,
-                                                       Decimal: _float_to_decimal,
-                                                       datetime: _datetime_str_to_datetime}))
+                                           type_hooks={date: date_str_to_date,
+                                                       Decimal: float_to_decimal,
+                                                       datetime: datetime_str_to_datetime}))
 
         return result.value

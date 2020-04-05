@@ -3,7 +3,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from decimal import Decimal
 from enum import unique, Enum
-from typing import Optional, Iterable, List
+from typing import Optional, List
 
 from konduto.api.resources.billing import Billing
 from konduto.api.resources.customer import Customer
@@ -11,7 +11,7 @@ from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.payment import Payment
 from konduto.api.resources.seller import Seller
 from konduto.api.resources.shipping import Shipping
-from konduto.api.resources.shopping_cart import ShoppingCart, Product
+from konduto.api.resources.shopping_cart import Product
 from konduto.api.resources.travel import Travel
 from konduto.infrastructure.json_enconder import JsonEncoder
 

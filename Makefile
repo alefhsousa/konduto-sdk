@@ -14,6 +14,8 @@ else
 	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 endif
 
+setup: poetry/install
+
 poetry/env:
 	$(POETRY_BIN)/poetry env use $(DEFAULT_PYTHON_VERSION)
 

@@ -3,6 +3,22 @@ from konduto.api import BaseClient
 
 
 class KondutoClient(BaseClient):
+    """
+    The :class:`KondutoClient <KondutoClient>` object.
+
+    Notes
+    -----
+        This class is the gateway to access all resource from Konduto.
+
+
+
+    Attributes
+    ----------
+    private_key : str
+        The key to access resources from Konduto.
+
+    """
+
     order = api.OrderClientKonduto()
 
     def __init__(self, private_key: str = None):

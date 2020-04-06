@@ -14,8 +14,6 @@ else
 	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 endif
 
-setup: poetry/install
-
 poetry/env:
 	$(POETRY_BIN)/poetry env use $(DEFAULT_PYTHON_VERSION)
 
@@ -32,4 +30,11 @@ test/run:
 	pytest tests --cov=konduto --cov-report=term --cov-report=xml --no-cov-on-fail --cov-fail-under=$(MIN_CODE_COVERAGE)
 
 test: test/run
+
+setup: poetry/install
+
+build: poetry/install
+	. $$(dirname $$($(POETRY_BIN)/poetry run which python))/activate; \
+	$(POETRY_BIN)/poetry build; \
+	ls -lrth dist/
 

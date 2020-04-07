@@ -9,6 +9,7 @@ from konduto.api.resources.konduto_payment import KondutoPaymentType
 from konduto.api.resources.response.konduto_error import KondutoError
 from konduto.api.resources.response.konduto_order_response import KondutoRecommendation, KondutoOrderResponse
 from konduto.client import KondutoClient
+from konduto.infrastructure.either import Right, Left
 from konduto.infrastructure.json_enconder import JsonEncoder
 from tests.fixtures.request_factories import OrderRequestFactory, PaymentFactory
 from tests.fixtures.response_factories import OrderResponseFactory
@@ -56,9 +57,11 @@ class TestOrderClient:
 
         with requests_mock.mock() as mock:
             mock.post(API_ENDPOINT_MOCK, text=mocked_response)
-            response = order_client.order.create(order)
-            assert response
-            assert isinstance(response, KondutoOrderResponse)
+            result = order_client.order.create(order)
+            assert result
+            assert isinstance(result, Right)
+            assert isinstance(result.value, KondutoOrderResponse)
+            response = result.value
             assert response.analyze is True
             assert response.id == expected_response.id
             assert response.recommendation == expected_response.recommendation
@@ -71,9 +74,11 @@ class TestOrderClient:
 
         with requests_mock.mock() as mock:
             mock.post(API_ENDPOINT_MOCK, text=mocked_response, status_code=400)
-            response = order_client.order.create(order)
-            assert response
-            assert isinstance(response, KondutoError)
+            result = order_client.order.create(order)
+            assert result
+            assert isinstance(result, Left)
+            assert isinstance(result.value, KondutoError)
+            response = result.value
             assert MOCKED_ERROR_RESPONSE['status'] == response.status
 
     def test_should_return_mapped_error_with_id_when_internal_error_happens(self, order_client):
@@ -82,9 +87,11 @@ class TestOrderClient:
 
         with requests_mock.mock() as mock:
             mock.post(API_ENDPOINT_MOCK, text=mocked_response, status_code=500)
-            response = order_client.order.create(order)
-            assert response
-            assert isinstance(response, KondutoError)
+            result = order_client.order.create(order)
+            assert result
+            assert isinstance(result, Left)
+            assert isinstance(result.value, KondutoError)
+            response = result.value
             assert response.status == MOCKED_INTERNAL_ERROR_RESPONSE['status']
             assert response.message.error_identifier == MOCKED_INTERNAL_ERROR_RESPONSE['message']['error_identifier']
             assert response.message.notification == MOCKED_INTERNAL_ERROR_RESPONSE['message']['notification']
@@ -96,7 +103,9 @@ class TestOrderClient:
         mocked_response = json.dumps(mocked_response, cls=JsonEncoder)
         with requests_mock.mock() as mock:
             mock.get(f'{API_ENDPOINT_MOCK}/{fake_order_id}', text=mocked_response)
-            response = order_client.order.load(fake_order_id)
-            assert response
-            assert isinstance(response, KondutoOrderResponse)
+            result = order_client.order.load(fake_order_id)
+            assert result
+            assert isinstance(result, Right)
+            assert isinstance(result.value, KondutoOrderResponse)
+            response = result.value
             assert response.id == expected_response.id

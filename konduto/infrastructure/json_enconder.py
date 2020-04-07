@@ -1,8 +1,8 @@
 import enum
 import json
+from datetime import datetime, date, time
 from decimal import Decimal
 from uuid import UUID
-from datetime import datetime, date, time, timedelta
 
 
 class JsonEncoder(json.JSONEncoder):
@@ -18,4 +18,4 @@ class JsonEncoder(json.JSONEncoder):
         if isinstance(obj, Decimal):
             return float(obj)
 
-        return json.JSONEncoder.default(self, obj)
+        return super(JsonEncoder, self).default(obj)

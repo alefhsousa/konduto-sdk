@@ -25,8 +25,10 @@ class TestRestrictListClient:
 
         with requests_mock.mock() as mock:
             mock.post(API_ENDPOINT_MOCK, text=email_response.json)
-            response = restrict_client.restrict.create(email_request)
+            result = restrict_client.restrict.create(email_request)
 
+            assert result.is_right is True
+            response = result.value
             assert response.uri
             assert response.created_at
             assert response.expires_at
@@ -38,8 +40,9 @@ class TestRestrictListClient:
 
         with requests_mock.mock() as mock:
             mock.get(f'{API_ENDPOINT_MOCK}/{expected_email}', text=email_response.json)
-            response = restrict_client.restrict.load(expected_email)
-
+            result = restrict_client.restrict.load(expected_email)
+            assert result.is_right is True
+            response = result.value
             assert response
             assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == expected_email
@@ -51,8 +54,10 @@ class TestRestrictListClient:
 
         with requests_mock.mock() as mock:
             mock.put(f'{API_ENDPOINT_MOCK}/{email_request.email_address}', text=email_response.json)
-            response = restrict_client.restrict.update(email_request.email_address, email_request)
+            result = restrict_client.restrict.update(email_request.email_address, email_request)
 
+            assert result.is_right is True
+            response = result.value
             assert response
             assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == email_request.email_address
@@ -63,8 +68,10 @@ class TestRestrictListClient:
 
         with requests_mock.mock() as mock:
             mock.delete(f'{API_ENDPOINT_MOCK}/{expected_email}', text=email_response.json)
-            response = restrict_client.restrict.remove(expected_email)
+            result = restrict_client.restrict.remove(expected_email)
 
+            assert result.is_right is True
+            response = result.value
             assert response
             assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == expected_email

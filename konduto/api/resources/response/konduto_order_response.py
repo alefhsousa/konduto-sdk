@@ -5,18 +5,18 @@ from decimal import Decimal
 from enum import unique, Enum
 from typing import Optional, List
 
-from konduto.api.resources.address import Address
-from konduto.api.resources.customer import Customer
-from konduto.api.resources.order_status import OrderStatus
-from konduto.api.resources.payment import Payment
-from konduto.api.resources.seller import Seller
-from konduto.api.resources.shopping_cart import Product
-from konduto.api.resources.travel import Travel
+from konduto.api.resources.konduto_address import KondutoAddress
+from konduto.api.resources.konduto_customer import KondutoCustomer
+from konduto.api.resources.konduto_order_status import KondutoOrderStatus
+from konduto.api.resources.konduto_payment import KondutoPayment
+from konduto.api.resources.konduto_seller import KondutoSeller
+from konduto.api.resources.konduto_shopping_cart import KondutoProduct
+from konduto.api.resources.kondutotravel import KondutoTravel
 from konduto.infrastructure.json_enconder import JsonEncoder
 
 
 @unique
-class Recommendation(Enum):
+class KondutoRecommendation(Enum):
     APPROVE = 'approve'
     REVIEW = 'review'
     DECLINE = 'decline'
@@ -24,7 +24,7 @@ class Recommendation(Enum):
 
 
 @dataclass
-class Device:
+class KondutoDevice:
     user_id: Optional[str] = None
     fingerprint: Optional[str] = None
     platform: Optional[str] = None
@@ -41,7 +41,7 @@ class Device:
 
 
 @dataclass
-class Geolocation:
+class KondutoGeolocation:
     city: Optional[str] = None
     state: Optional[str] = None
     country: Optional[str] = None
@@ -52,7 +52,7 @@ class Geolocation:
 
 
 @dataclass
-class Navigation:
+class KondutoNavigation:
     time_site_7d: Optional[int] = None
     time_per_page_7d: Optional[int] = None
     new_accounts_7d: Optional[int] = None
@@ -75,23 +75,23 @@ class Navigation:
 
 
 @dataclass
-class OrderResponse:
+class KondutoOrderResponse:
     id: str
     score: float
-    recommendation: Recommendation
+    recommendation: KondutoRecommendation
     visitor: Optional[str] = True
     analyze: Optional[bool] = True
-    status: Optional[OrderStatus] = None
-    device: Optional[Device] = None
-    geolocation: Optional[Geolocation] = None
-    navigation: Optional[Navigation] = None
+    status: Optional[KondutoOrderStatus] = None
+    device: Optional[KondutoDevice] = None
+    geolocation: Optional[KondutoGeolocation] = None
+    navigation: Optional[KondutoNavigation] = None
     ip: Optional[str] = None
-    customer: Optional[Customer] = None
-    payment: Optional[List[Payment]] = None
-    billing: Optional[Address] = None
-    shipping: Optional[Address] = None
-    shopping_cart: Optional[List[Product]] = None
-    tavel: Optional[Travel] = None
+    customer: Optional[KondutoCustomer] = None
+    payment: Optional[List[KondutoPayment]] = None
+    billing: Optional[KondutoAddress] = None
+    shipping: Optional[KondutoAddress] = None
+    shopping_cart: Optional[List[KondutoProduct]] = None
+    tavel: Optional[KondutoTravel] = None
     total_amount: Optional[Decimal] = None
     shipping_amount: Optional[Decimal] = None
     tax_amount: Optional[Decimal] = None
@@ -100,7 +100,7 @@ class OrderResponse:
     first_message: Optional[datetime] = None
     messages_exchanged: Optional[int] = None
     purchased_at: Optional[datetime] = None
-    seller: Optional[Seller] = None
+    seller: Optional[KondutoSeller] = None
 
     @property
     def to_dict(self):

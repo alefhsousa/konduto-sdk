@@ -4,7 +4,7 @@ from typing import Optional
 
 
 @dataclass
-class Customer:
+class KondutoCustomer:
     id: str
     name: str
     email: str

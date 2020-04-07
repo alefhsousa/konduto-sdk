@@ -4,7 +4,7 @@ import requests_mock
 from pytest import fixture
 
 from konduto import KONDUTO_DOMAIN
-from konduto.api.resources.response.restrict_email_response import RestrictEmailResponse
+from konduto.api.resources.response.restrict_email_response import KondutoRestrictEmailResponse
 from konduto.client import KondutoClient
 from tests.fixtures.request_factories import RestrictEmailRequestFactory
 from tests.fixtures.response_factories import RestrictEmailResponseFactory
@@ -41,7 +41,7 @@ class TestRestrictListClient:
             response = restrict_client.restrict.load(expected_email)
 
             assert response
-            assert isinstance(response, RestrictEmailResponse)
+            assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == expected_email
 
     def test_should_update_an_restrict_email(self, restrict_client):
@@ -54,7 +54,7 @@ class TestRestrictListClient:
             response = restrict_client.restrict.update(email_request.email_address, email_request)
 
             assert response
-            assert isinstance(response, RestrictEmailResponse)
+            assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == email_request.email_address
 
     def test_should_delete_an_restrict_email(self, restrict_client):
@@ -66,6 +66,6 @@ class TestRestrictListClient:
             response = restrict_client.restrict.remove(expected_email)
 
             assert response
-            assert isinstance(response, RestrictEmailResponse)
+            assert isinstance(response, KondutoRestrictEmailResponse)
             assert response.email == expected_email
             assert response.message

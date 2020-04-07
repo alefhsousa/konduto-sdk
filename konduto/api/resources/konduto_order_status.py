@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class OrderStatus(Enum):
+class KondutoOrderStatus(Enum):
     APPROVED = 'approved'
     DECLINED = 'declined'
     NOT_AUTHORIZED = 'not_authorized'

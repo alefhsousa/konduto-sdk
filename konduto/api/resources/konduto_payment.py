@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional
 
 
-class PaymentType(Enum):
+class KondutoPaymentType(Enum):
     CREDIT = 'credit'
     BOLETO = 'boleto'
     DEBIT = 'debit'
@@ -11,16 +11,16 @@ class PaymentType(Enum):
     VOUCHER = 'voucher'
 
 
-class PaymentStatus(Enum):
+class KondutoPaymentStatus(Enum):
     APPROVED = 'approved'
     DECLINED = 'declined'
     PENDING = 'pending'
 
 
 @dataclass
-class Payment:
-    type: PaymentType
-    status: PaymentStatus
+class KondutoPayment:
+    type: KondutoPaymentType
+    status: KondutoPaymentStatus
     bin: Optional[str] = None
     last4: Optional[str] = None
     expiration_date: Optional[str] = None

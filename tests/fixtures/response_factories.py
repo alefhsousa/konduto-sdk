@@ -5,9 +5,9 @@ import factory
 from factory import lazy_attribute, SubFactory
 from faker import Faker
 
-from konduto.api.resources.order_status import OrderStatus
-from konduto.api.resources.response.order_response import OrderResponse, Recommendation
-from konduto.api.resources.response.restrict_email_response import RestrictEmailResponse
+from konduto.api.resources.konduto_order_status import KondutoOrderStatus
+from konduto.api.resources.response.konduto_order_response import KondutoOrderResponse, KondutoRecommendation
+from konduto.api.resources.response.restrict_email_response import KondutoRestrictEmailResponse
 from tests.fixtures.request_factories import CustomerFactory, PaymentFactory, \
     SellerFactory, ProductFactory, AddressFactory
 
@@ -16,13 +16,13 @@ fake = Faker()
 
 class OrderResponseFactory(factory.Factory):
     class Meta:
-        model = OrderResponse
+        model = KondutoOrderResponse
 
     id = lazy_attribute(lambda o: uuid.uuid4())
     score = lazy_attribute(lambda o: fake.pyfloat(left_digits=None, right_digits=2,
                                                   positive=True, min_value=0, max_value=1))
-    recommendation = lazy_attribute(lambda o: secrets.choice([rec.value for rec in Recommendation]))
-    status = lazy_attribute(lambda o: secrets.choice([status.value for status in OrderStatus]))
+    recommendation = lazy_attribute(lambda o: secrets.choice([rec.value for rec in KondutoRecommendation]))
+    status = lazy_attribute(lambda o: secrets.choice([status.value for status in KondutoOrderStatus]))
     visitor = lazy_attribute(lambda o: uuid.uuid4())
     customer = SubFactory(CustomerFactory)
     payment = factory.List([factory.SubFactory(PaymentFactory) for _ in range(2)])
@@ -43,7 +43,7 @@ class OrderResponseFactory(factory.Factory):
 
 class RestrictEmailResponseFactory(factory.Factory):
     class Meta:
-        model = RestrictEmailResponse
+        model = KondutoRestrictEmailResponse
 
     uri = lazy_attribute(lambda o: f'/v1/blacklist/email/{fake.email()}')
     expires_at = lazy_attribute(lambda o: fake.date_object())

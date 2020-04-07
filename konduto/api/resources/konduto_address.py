@@ -3,7 +3,7 @@ from typing import Optional
 
 
 @dataclass
-class Address:
+class KondutoAddress:
     name: Optional[str] = None
     address1: Optional[str] = None
     address2: Optional[str] = None

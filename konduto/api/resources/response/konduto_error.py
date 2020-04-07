@@ -20,10 +20,10 @@ class Message:
 
 
 @dataclass
-class Error:
+class KondutoError:
     status: str
     message: Message
 
     @staticmethod
     def error_from_dict(response_dict: dict):
-        return from_dict(data_class=Error, data=response_dict)
+        return from_dict(data_class=KondutoError, data=response_dict)

@@ -8,7 +8,7 @@ from konduto.infrastructure.parsers import date_str_to_date, datetime_str_to_dat
 
 
 @dataclass
-class RestrictEmailResponse:
+class KondutoRestrictEmailResponse:
     expires_at: date
     uri: Optional[str] = None
     created_at: Optional[date] = None
@@ -35,13 +35,13 @@ class RestrictEmailResponse:
         return json.dumps(self.to_dict, cls=JsonEncoder)
 
 
-class RestrictEmailResponseMapper:
+class KondutoRestrictEmailResponseMapper:
 
     @staticmethod
-    def to_model(payload: dict) -> RestrictEmailResponse:
+    def to_model(payload: dict) -> KondutoRestrictEmailResponse:
         expires_at = date_str_to_date(payload['expires_at']) if payload.get('expires_at') else None
         created_at = datetime_str_to_datetime(payload['created_at']) if payload.get('created_at') else None
         updated_at = datetime_str_to_datetime(payload['updated_at']) if payload.get('updated_at') else None
-        return RestrictEmailResponse(expires_at=expires_at, uri=payload.get('uri'), created_at=created_at,
-                                     updated_at=updated_at, email_address=payload.get('email_address'),
-                                     message=payload.get('message'))
+        return KondutoRestrictEmailResponse(expires_at=expires_at, uri=payload.get('uri'), created_at=created_at,
+                                            updated_at=updated_at, email_address=payload.get('email_address'),
+                                            message=payload.get('message'))

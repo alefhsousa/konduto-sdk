@@ -1,9 +1,9 @@
-from konduto.api.resources.response.error import Error
+from konduto.api.resources.response.konduto_error import KondutoError
 from konduto.infrastructure.either import Either, Left
 
 
 def _map_to_error_if_failed(result: Either):
-    return Left(Error.error_from_dict(result.value)) if result.is_left else result
+    return Left(KondutoError.error_from_dict(result.value)) if result.is_left else result
 
 
 class KondutoHttpClient:

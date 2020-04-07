@@ -4,7 +4,7 @@ from typing import Optional
 
 
 @dataclass
-class Seller:
+class KondutoSeller:
     id: Optional[str]
     name: Optional[str]
     created_at: Optional[date]

@@ -4,7 +4,7 @@ from typing import Optional
 
 
 @dataclass
-class RestrictEmailRequest:
+class KondutoRestrictEmailRequest:
     email_address: str
     days_to_expire: Optional[int] = None
 

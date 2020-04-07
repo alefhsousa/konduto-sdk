@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 
-from konduto.api.resources.order_status import OrderStatus
+from konduto.api.resources.konduto_order_status import KondutoOrderStatus
 from konduto.infrastructure.json_enconder import JsonEncoder
 
 
@@ -14,7 +14,7 @@ class TestJsonEnconder:
         assert str(expect_result) in json.dumps({'uuid': expect_result}, cls=JsonEncoder)
 
     def test_should_parse_enum(self):
-        expect_result = OrderStatus.APPROVED
+        expect_result = KondutoOrderStatus.APPROVED
         assert expect_result.value in json.dumps({'status': expect_result}, cls=JsonEncoder)
 
     def test_should_parse_datetime_iso8601(self):

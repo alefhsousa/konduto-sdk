@@ -5,7 +5,7 @@ from typing import Optional, List
 
 
 @dataclass
-class Product:
+class KondutoProduct:
     sku: Optional[str] = None
     product_code: Optional[str] = None
     category: Optional[int] = None
@@ -22,8 +22,8 @@ class Product:
 
 
 @dataclass
-class ShoppingCart:
-    shopping_cart: List[Product]
+class KondutoShoppingCart:
+    shopping_cart: List[KondutoProduct]
 
     @property
     def to_dict(self) -> [dict]:

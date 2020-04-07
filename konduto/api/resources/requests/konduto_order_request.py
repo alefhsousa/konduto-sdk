@@ -4,27 +4,27 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional, List
 
-from konduto.api.resources.address import Address
-from konduto.api.resources.customer import Customer
-from konduto.api.resources.payment import Payment
-from konduto.api.resources.seller import Seller
-from konduto.api.resources.shopping_cart import ShoppingCart
-from konduto.api.resources.travel import Travel
+from konduto.api.resources.konduto_address import KondutoAddress
+from konduto.api.resources.konduto_customer import KondutoCustomer
+from konduto.api.resources.konduto_payment import KondutoPayment
+from konduto.api.resources.konduto_seller import KondutoSeller
+from konduto.api.resources.konduto_shopping_cart import KondutoShoppingCart
+from konduto.api.resources.kondutotravel import KondutoTravel
 from konduto.infrastructure.json_enconder import JsonEncoder
 
 
 @dataclass
-class OrderRequest:
+class KondutoOrderRequest:
     id: str
     visitor: str
-    customer: Customer
+    customer: KondutoCustomer
     total_amount: Decimal
     analyze: Optional[bool] = True
-    payment: Optional[List[Payment]] = None
-    billing: Optional[Address] = None
-    shipping: Optional[Address] = None
-    shopping_cart: Optional[ShoppingCart] = None
-    tavel: Optional[Travel] = None
+    payment: Optional[List[KondutoPayment]] = None
+    billing: Optional[KondutoAddress] = None
+    shipping: Optional[KondutoAddress] = None
+    shopping_cart: Optional[KondutoShoppingCart] = None
+    tavel: Optional[KondutoTravel] = None
     shipping_amount: Optional[Decimal] = None
     tax_amount: Optional[Decimal] = None
     currency: Optional[str] = None
@@ -33,7 +33,7 @@ class OrderRequest:
     first_message: Optional[datetime] = None
     messages_exchanged: Optional[int] = None
     purchased_at: Optional[datetime] = None
-    seller: Optional[Seller] = None
+    seller: Optional[KondutoSeller] = None
 
     @property
     def to_dict(self):

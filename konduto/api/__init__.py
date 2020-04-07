@@ -7,8 +7,8 @@ from requests import Response
 
 from konduto import VERSION
 from konduto.api.clients import KondutoHttpClient
-from konduto.api.clients.v1.order import OrderClientKonduto
-from konduto.api.clients.v1.restrict_list import RestrictClientKonduto
+from konduto.api.clients.v1.order import KondutoOrderClient
+from konduto.api.clients.v1.restrict_list import KondutoRestrictClient
 from konduto.infrastructure.either import Either, Right, Left
 
 

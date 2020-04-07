@@ -5,20 +5,20 @@ import factory
 from factory import lazy_attribute, SubFactory
 from faker import Faker
 
-from konduto.api.resources.address import Address
-from konduto.api.resources.customer import Customer
-from konduto.api.resources.payment import Payment, PaymentType, PaymentStatus
-from konduto.api.resources.requests.order_request import OrderRequest
-from konduto.api.resources.requests.restrict_email_request import RestrictEmailRequest
-from konduto.api.resources.seller import Seller
-from konduto.api.resources.shopping_cart import Product, ShoppingCart
+from konduto.api.resources.konduto_address import KondutoAddress
+from konduto.api.resources.konduto_customer import KondutoCustomer
+from konduto.api.resources.konduto_payment import KondutoPayment, KondutoPaymentType, KondutoPaymentStatus
+from konduto.api.resources.requests.konduto_order_request import KondutoOrderRequest
+from konduto.api.resources.requests.konduto_restrict_email_request import KondutoRestrictEmailRequest
+from konduto.api.resources.konduto_seller import KondutoSeller
+from konduto.api.resources.konduto_shopping_cart import KondutoProduct, KondutoShoppingCart
 
 fake = Faker(locale='pt-BR')
 
 
 class AddressFactory(factory.Factory):
     class Meta:
-        model = Address
+        model = KondutoAddress
 
     name = lazy_attribute(lambda o: fake.name())
     address1 = lazy_attribute(lambda o: fake.address())
@@ -30,7 +30,7 @@ class AddressFactory(factory.Factory):
 
 class CustomerFactory(factory.Factory):
     class Meta:
-        model = Customer
+        model = KondutoCustomer
 
     id = lazy_attribute(lambda o: uuid.uuid4())
     name = lazy_attribute(lambda o: fake.name())
@@ -46,10 +46,10 @@ class CustomerFactory(factory.Factory):
 
 class PaymentFactory(factory.Factory):
     class Meta:
-        model = Payment
+        model = KondutoPayment
 
-    type = lazy_attribute(lambda o: random.choice(list(PaymentType)))
-    status = lazy_attribute(lambda o: random.choice(list(PaymentStatus)))
+    type = lazy_attribute(lambda o: random.choice(list(KondutoPaymentType)))
+    status = lazy_attribute(lambda o: random.choice(list(KondutoPaymentStatus)))
     bin = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[:6])
     last4 = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[-4:])
     expiration_date = lazy_attribute(lambda o: fake.credit_card_expire(start='now', end='+5y', date_format='%m%Y'))
@@ -57,7 +57,7 @@ class PaymentFactory(factory.Factory):
 
 class SellerFactory(factory.Factory):
     class Meta:
-        model = Seller
+        model = KondutoSeller
 
     id = lazy_attribute(lambda o: str(fake.pyint(min_value=0, max_value=9999, step=1)))
     name = lazy_attribute(lambda o: fake.company())
@@ -66,7 +66,7 @@ class SellerFactory(factory.Factory):
 
 class ProductFactory(factory.Factory):
     class Meta:
-        model = Product
+        model = KondutoProduct
 
     sku = lazy_attribute(lambda o: uuid.uuid4())
     product_code = lazy_attribute(lambda o: str(fake.pyint(min_value=0, max_value=9999, step=10)))
@@ -80,14 +80,14 @@ class ProductFactory(factory.Factory):
 
 class ShoppingCartFactory(factory.Factory):
     class Meta:
-        model = ShoppingCart
+        model = KondutoShoppingCart
 
     shopping_cart = factory.List([factory.SubFactory(ProductFactory) for _ in range(2)])
 
 
 class OrderRequestFactory(factory.Factory):
     class Meta:
-        model = OrderRequest
+        model = KondutoOrderRequest
 
     id = lazy_attribute(lambda o: uuid.uuid4())
     visitor = lazy_attribute(lambda o: uuid.uuid4())
@@ -110,7 +110,7 @@ class OrderRequestFactory(factory.Factory):
 
 class RestrictEmailRequestFactory(factory.Factory):
     class Meta:
-        model = RestrictEmailRequest
+        model = KondutoRestrictEmailRequest
 
     email_address = lazy_attribute(lambda o: fake.email())
     days_to_expire = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))

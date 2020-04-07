@@ -2,12 +2,12 @@ import json
 from dataclasses import dataclass
 from typing import Optional
 
-from konduto.api.resources.order_status import OrderStatus
+from konduto.api.resources.konduto_order_status import KondutoOrderStatus
 
 
 @dataclass
-class OrderStatusRequest:
-    status: OrderStatus
+class KondutoOrderStatusRequest:
+    status: KondutoOrderStatus
     comments: Optional[str] = None
 
     @property

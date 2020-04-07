@@ -15,7 +15,7 @@ class TestJsonEnconder:
 
     def test_should_parse_enum(self):
         expect_result = OrderStatus.APPROVED
-        assert expect_result.name in json.dumps({'status': expect_result}, cls=JsonEncoder)
+        assert expect_result.value in json.dumps({'status': expect_result}, cls=JsonEncoder)
 
     def test_should_parse_datetime_iso8601(self):
         date = datetime(year=2020, month=4, day=1)

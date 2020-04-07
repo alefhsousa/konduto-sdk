@@ -5,12 +5,11 @@ from decimal import Decimal
 from enum import unique, Enum
 from typing import Optional, List
 
-from konduto.api.resources.billing import Billing
+from konduto.api.resources.address import Address
 from konduto.api.resources.customer import Customer
 from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.payment import Payment
 from konduto.api.resources.seller import Seller
-from konduto.api.resources.shipping import Shipping
 from konduto.api.resources.shopping_cart import Product
 from konduto.api.resources.travel import Travel
 from konduto.infrastructure.json_enconder import JsonEncoder
@@ -18,10 +17,10 @@ from konduto.infrastructure.json_enconder import JsonEncoder
 
 @unique
 class Recommendation(Enum):
-    APPROVE = 'APPROVE'
-    REVIEW = 'REVIEW'
-    DECLINE = 'DECLINE'
-    NONE = 'NONE'
+    APPROVE = 'approve'
+    REVIEW = 'review'
+    DECLINE = 'decline'
+    NONE = 'none'
 
 
 @dataclass
@@ -89,8 +88,8 @@ class OrderResponse:
     ip: Optional[str] = None
     customer: Optional[Customer] = None
     payment: Optional[List[Payment]] = None
-    billing: Optional[Billing] = None
-    shipping: Optional[Shipping] = None
+    billing: Optional[Address] = None
+    shipping: Optional[Address] = None
     shopping_cart: Optional[List[Product]] = None
     tavel: Optional[Travel] = None
     total_amount: Optional[Decimal] = None
@@ -105,31 +104,7 @@ class OrderResponse:
 
     @property
     def to_dict(self):
-        return {'id': self.id,
-                'visitor': self.visitor,
-                'total_amount': self.total_amount,
-                'shipping_amount': self.shipping_amount,
-                'tax_amount': self.tax_amount,
-                'recommendation': self.recommendation,
-                'score': self.score,
-                'status': self.status,
-                'currency': self.currency,
-                'installments': self.installments,
-                'ip': self.ip,
-                'first_message': self.first_message,
-                'messages_exchanged': self.messages_exchanged,
-                'purchased_at': self.purchased_at,
-                'analyze': self.analyze,
-                'customer': self.customer.to_dict if self.customer else None,
-                'payment': [item.to_dict for item in self.payment] if self.payment else None,
-                'billing': self.billing.to_dict if self.billing else None,
-                'shipping': self.shipping.to_dict if self.shipping else None,
-                'shopping_cart': [item.to_dict for item in self.shopping_cart] if self.shopping_cart else None,
-                'travel': None,
-                'seller': self.seller.to_dict if self.seller else None,
-                'device': self.device.to_dict if self.device else None,
-                'geolocation': self.geolocation.json if self.device else None,
-                'navigation': self.navigation.json if self.device else None}
+        return asdict(self)
 
     @property
     def json(self):

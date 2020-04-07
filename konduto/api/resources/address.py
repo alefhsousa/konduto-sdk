@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional
 
 
@@ -11,3 +11,7 @@ class Address:
     state: Optional[str] = None
     zip: Optional[str] = None
     country: Optional[str] = None
+
+    @property
+    def to_dict(self):
+        return asdict(self)

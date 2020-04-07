@@ -5,11 +5,12 @@ from pytest import fixture
 
 from konduto import KONDUTO_DOMAIN
 from konduto.api.resources.order_status import OrderStatus
+from konduto.api.resources.payment import PaymentType
 from konduto.api.resources.response.error import Error
 from konduto.api.resources.response.order_response import Recommendation, OrderResponse
 from konduto.client import KondutoClient
 from konduto.infrastructure.json_enconder import JsonEncoder
-from tests.fixtures.request_factories import OrderRequestFactory
+from tests.fixtures.request_factories import OrderRequestFactory, PaymentFactory
 from tests.fixtures.response_factories import OrderResponseFactory
 
 API_ENDPOINT_MOCK = f'{KONDUTO_DOMAIN}v1/orders'.strip('/')
@@ -19,7 +20,7 @@ MOCKED_ERROR_RESPONSE = {
     "message": {
         "where": "/",
         "why": {
-            "expected": "integer",
+            "expected": ["integer"],
             "found": "string"
         }
     }}
@@ -31,7 +32,7 @@ MOCKED_INTERNAL_ERROR_RESPONSE = {
         "error_identifier": "09e1a98c-eada-4695-8864-bff8ba4707ba",
         "where": "/",
         "why": {
-            "expected": "ok",
+            "expected": ["ok"],
             "found": "Internal error"
         }
     }}
@@ -48,7 +49,8 @@ class TestOrderClient:
         expected_response = OrderResponseFactory(id='123', score=0.42,
                                                  recommendation=Recommendation.APPROVE,
                                                  status=OrderStatus.APPROVED)
-        order = OrderRequestFactory()
+
+        order = OrderRequestFactory(payment=[PaymentFactory(type=PaymentType.CREDIT)])
         mocked_response = {'status': 'ok', 'order': expected_response.to_dict}
         mocked_response = json.dumps(mocked_response, cls=JsonEncoder)
 
@@ -75,7 +77,7 @@ class TestOrderClient:
             assert MOCKED_ERROR_RESPONSE['status'] == response.status
 
     def test_should_return_mapped_error_with_id_when_internal_error_happens(self, order_client):
-        order = OrderRequestFactory()
+        order = OrderRequestFactory(payment=[PaymentFactory(type=PaymentType.TRANSFER)])
         mocked_response = json.dumps(MOCKED_INTERNAL_ERROR_RESPONSE, cls=JsonEncoder)
 
         with requests_mock.mock() as mock:
@@ -90,7 +92,8 @@ class TestOrderClient:
     def test_should_return_an_order_by_id(self, order_client):
         fake_order_id = 'fake123'
         expected_response = OrderResponseFactory(id=fake_order_id)
-        mocked_response = json.dumps(expected_response.to_dict, cls=JsonEncoder)
+        mocked_response = {'status': 'ok', 'order': expected_response.to_dict}
+        mocked_response = json.dumps(mocked_response, cls=JsonEncoder)
         with requests_mock.mock() as mock:
             mock.get(f'{API_ENDPOINT_MOCK}/{fake_order_id}', text=mocked_response)
             response = order_client.order.load(fake_order_id)

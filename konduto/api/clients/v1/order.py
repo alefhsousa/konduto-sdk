@@ -6,6 +6,7 @@ from typing import Union
 from dacite import from_dict, Config
 
 from konduto.api.clients import KondutoHttpClient
+from konduto.api.resources.address import Address
 from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.requests.order_request import OrderRequest
 from konduto.api.resources.requests.order_status_request import OrderStatusRequest
@@ -26,7 +27,7 @@ class OrderClientKonduto(KondutoHttpClient):
             response_order = result.value['order']
             order_response = OrderResponse(id=response_order['id'], score=response_order['score'],
                                            recommendation=Recommendation(response_order['recommendation']),
-                                           status=OrderStatus(str(response_order['status']).upper()))
+                                           status=OrderStatus(str(response_order['status']).lower()))
             return order_response
 
         return result.value
@@ -43,10 +44,11 @@ class OrderClientKonduto(KondutoHttpClient):
         result = self.get(f'{ENDPOINT}/{order_id}')
 
         if result.is_right:
-            return from_dict(data_class=OrderResponse, data=result.value,
-                             config=Config(cast=[Enum],
+            return from_dict(data_class=OrderResponse, data=result.value['order'],
+                             config=Config(cast=[Enum, int],
                                            type_hooks={date: date_str_to_date,
                                                        Decimal: float_to_decimal,
-                                                       datetime: datetime_str_to_datetime}))
+                                                       datetime: datetime_str_to_datetime,
+                                                       int: lambda x: int(x)}))
 
         return result.value

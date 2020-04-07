@@ -6,13 +6,11 @@ from factory import lazy_attribute, SubFactory
 from faker import Faker
 
 from konduto.api.resources.address import Address
-from konduto.api.resources.billing import Billing
 from konduto.api.resources.customer import Customer
 from konduto.api.resources.payment import Payment, PaymentType, PaymentStatus
 from konduto.api.resources.requests.order_request import OrderRequest
 from konduto.api.resources.requests.restrict_email_request import RestrictEmailRequest
 from konduto.api.resources.seller import Seller
-from konduto.api.resources.shipping import Shipping
 from konduto.api.resources.shopping_cart import Product, ShoppingCart
 
 fake = Faker(locale='pt-BR')
@@ -28,13 +26,6 @@ class AddressFactory(factory.Factory):
     state = lazy_attribute(lambda o: fake.state_abbr())
     zip = lazy_attribute(lambda o: fake.postcode())
     country = lazy_attribute(lambda o: fake.country_code(representation='alpha-2'))
-
-
-class BillingFactory(factory.Factory):
-    class Meta:
-        model = Billing
-
-    address = SubFactory(AddressFactory)
 
 
 class CustomerFactory(factory.Factory):
@@ -59,9 +50,9 @@ class PaymentFactory(factory.Factory):
 
     type = lazy_attribute(lambda o: random.choice(list(PaymentType)))
     status = lazy_attribute(lambda o: random.choice(list(PaymentStatus)))
-    bin = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[6:])
-    last4 = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[:4])
-    expiration_date = lazy_attribute(lambda o: fake.credit_card_expire(start='now', end='+5y', date_format='%m%y'))
+    bin = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[:6])
+    last4 = lazy_attribute(lambda o: fake.credit_card_number(card_type=None)[-4:])
+    expiration_date = lazy_attribute(lambda o: fake.credit_card_expire(start='now', end='+5y', date_format='%m%Y'))
 
 
 class SellerFactory(factory.Factory):
@@ -71,13 +62,6 @@ class SellerFactory(factory.Factory):
     id = lazy_attribute(lambda o: str(fake.pyint(min_value=0, max_value=9999, step=1)))
     name = lazy_attribute(lambda o: fake.company())
     created_at = lazy_attribute(lambda o: fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=40))
-
-
-class ShippingFactory(factory.Factory):
-    class Meta:
-        model = Shipping
-
-    address = SubFactory(AddressFactory)
 
 
 class ProductFactory(factory.Factory):
@@ -90,7 +74,7 @@ class ProductFactory(factory.Factory):
     name = lazy_attribute(lambda o: fake.name())
     description = lazy_attribute(lambda o: fake.text())
     unit_cost = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
-    quantity = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=2))
+    quantity = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=100, step=1))
     created_at = lazy_attribute(lambda o: fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=40))
 
 
@@ -109,14 +93,14 @@ class OrderRequestFactory(factory.Factory):
     visitor = lazy_attribute(lambda o: uuid.uuid4())
     customer = SubFactory(CustomerFactory)
     payment = factory.List([factory.SubFactory(PaymentFactory) for _ in range(2)])
-    billing = SubFactory(BillingFactory)
-    shipping = SubFactory(ShippingFactory)
+    billing = SubFactory(AddressFactory)
+    shipping = SubFactory(AddressFactory)
     shopping_cart = SubFactory(ShoppingCartFactory)
     total_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
     shipping_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
     tax_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
     currency = lazy_attribute(lambda o: fake.currency_code())
-    installments = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))
+    installments = lazy_attribute(lambda o: fake.pyint(min_value=1, max_value=12, step=1))
     ip = lazy_attribute(lambda o: fake.ipv4(network=False, address_class=None, private=None))
     first_message = lazy_attribute(lambda o: fake.date_time(tzinfo=None, end_datetime=None))
     messages_exchanged = lazy_attribute(lambda o: fake.pyint(min_value=0, max_value=9999, step=5))

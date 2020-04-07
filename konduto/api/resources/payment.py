@@ -4,17 +4,17 @@ from typing import Optional
 
 
 class PaymentType(Enum):
-    CREDIT = 'CREDIT'
-    BOLETO = 'BOLETO'
-    DEBIT = 'DEBIT'
-    TRANSFER = 'TRANSFER'
-    VOUCHER = 'VOUCHER'
+    CREDIT = 'credit'
+    BOLETO = 'boleto'
+    DEBIT = 'debit'
+    TRANSFER = 'transfer'
+    VOUCHER = 'voucher'
 
 
 class PaymentStatus(Enum):
-    APPROVED = 'APPROVED'
-    DECLINED = 'DECLINED'
-    PENDING = 'PENDING'
+    APPROVED = 'approved'
+    DECLINED = 'declined'
+    PENDING = 'pending'
 
 
 @dataclass

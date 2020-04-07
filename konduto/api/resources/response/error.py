@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import Iterable, Optional
+from typing import Iterable, Optional, List
 
 from dacite import from_dict
 
 
 @dataclass
 class Why:
-    expected: Optional[str]
+    expected: Optional[List[str]]
     found: Optional[str]
     missing: Optional[Iterable[str]]
 
@@ -14,7 +14,7 @@ class Why:
 @dataclass
 class Message:
     where: str
-    why: Why
+    why: dict
     error_identifier: Optional[str]
     notification: Optional[str]
 

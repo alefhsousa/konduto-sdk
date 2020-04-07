@@ -10,7 +10,7 @@ class JsonEncoder(json.JSONEncoder):
         if isinstance(obj, UUID):
             return str(obj)
         if isinstance(obj, enum.Enum):
-            return obj.name
+            return obj.value
         if isinstance(obj, datetime):
             return obj.strftime('%Y-%m-%dT%H:%M:%SZ')
         if isinstance(obj, (date, time)):

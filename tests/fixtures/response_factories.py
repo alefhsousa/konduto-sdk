@@ -8,8 +8,8 @@ from faker import Faker
 from konduto.api.resources.order_status import OrderStatus
 from konduto.api.resources.response.order_response import OrderResponse, Recommendation
 from konduto.api.resources.response.restrict_email_response import RestrictEmailResponse
-from tests.fixtures.request_factories import CustomerFactory, BillingFactory, ShippingFactory, PaymentFactory, \
-    SellerFactory, ProductFactory
+from tests.fixtures.request_factories import CustomerFactory, PaymentFactory, \
+    SellerFactory, ProductFactory, AddressFactory
 
 fake = Faker()
 
@@ -21,13 +21,13 @@ class OrderResponseFactory(factory.Factory):
     id = lazy_attribute(lambda o: uuid.uuid4())
     score = lazy_attribute(lambda o: fake.pyfloat(left_digits=None, right_digits=2,
                                                   positive=True, min_value=0, max_value=1))
-    recommendation = lazy_attribute(lambda o: secrets.choice([value for value in Recommendation]))
-    status = lazy_attribute(lambda o: secrets.choice([value for value in OrderStatus]))
+    recommendation = lazy_attribute(lambda o: secrets.choice([rec.value for rec in Recommendation]))
+    status = lazy_attribute(lambda o: secrets.choice([status.value for status in OrderStatus]))
     visitor = lazy_attribute(lambda o: uuid.uuid4())
     customer = SubFactory(CustomerFactory)
     payment = factory.List([factory.SubFactory(PaymentFactory) for _ in range(2)])
-    billing = SubFactory(BillingFactory)
-    shipping = SubFactory(ShippingFactory)
+    billing = SubFactory(AddressFactory)
+    shipping = SubFactory(AddressFactory)
     shopping_cart = factory.List([factory.SubFactory(ProductFactory) for _ in range(2)])
     total_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=False))
     shipping_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=False))

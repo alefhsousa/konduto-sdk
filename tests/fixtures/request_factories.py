@@ -8,10 +8,10 @@ from faker import Faker
 from konduto.api.resources.konduto_address import KondutoAddress
 from konduto.api.resources.konduto_customer import KondutoCustomer
 from konduto.api.resources.konduto_payment import KondutoPayment, KondutoPaymentType, KondutoPaymentStatus
+from konduto.api.resources.konduto_seller import KondutoSeller
+from konduto.api.resources.konduto_shopping_cart import KondutoProduct
 from konduto.api.resources.requests.konduto_order_request import KondutoOrderRequest
 from konduto.api.resources.requests.konduto_restrict_email_request import KondutoRestrictEmailRequest
-from konduto.api.resources.konduto_seller import KondutoSeller
-from konduto.api.resources.konduto_shopping_cart import KondutoProduct, KondutoShoppingCart
 
 fake = Faker(locale='pt-BR')
 
@@ -78,13 +78,6 @@ class ProductFactory(factory.Factory):
     created_at = lazy_attribute(lambda o: fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=40))
 
 
-class ShoppingCartFactory(factory.Factory):
-    class Meta:
-        model = KondutoShoppingCart
-
-    shopping_cart = factory.List([factory.SubFactory(ProductFactory) for _ in range(2)])
-
-
 class OrderRequestFactory(factory.Factory):
     class Meta:
         model = KondutoOrderRequest
@@ -95,7 +88,7 @@ class OrderRequestFactory(factory.Factory):
     payment = factory.List([factory.SubFactory(PaymentFactory) for _ in range(2)])
     billing = SubFactory(AddressFactory)
     shipping = SubFactory(AddressFactory)
-    shopping_cart = SubFactory(ShoppingCartFactory)
+    shopping_cart = factory.List([factory.SubFactory(ProductFactory) for _ in range(2)])
     total_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
     shipping_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))
     tax_amount = lazy_attribute(lambda o: fake.pydecimal(left_digits=2, right_digits=4, positive=True))

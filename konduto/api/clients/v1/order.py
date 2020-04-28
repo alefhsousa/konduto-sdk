@@ -25,9 +25,10 @@ class KondutoOrderClient(KondutoHttpClient):
 
         if result.is_right:
             response_order = result.value['order']
+            recommendation = KondutoRecommendation.from_string(response_order['recommendation'])
             order_response = KondutoOrderResponse(id=response_order['id'], score=response_order['score'],
-                                                  recommendation=KondutoRecommendation(response_order['recommendation']),
-                                                  status=KondutoOrderStatus(str(response_order['status']).lower()))
+                                                  recommendation=recommendation,
+                                                  status=KondutoOrderStatus.from_string(response_order['status']))
             return Right(order_response)
 
         return result

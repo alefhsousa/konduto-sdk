@@ -3,8 +3,12 @@
 
 [![codecov](https://codecov.io/gh/alefhsousa/konduto-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/alefhsousa/konduto-sdk)
 ![ci](https://github.com/alefhsousa/konduto-sdk/workflows/ci/badge.svg)
-<a href="https://github.com/alefhsousa/konduto-sdk/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/alefhsousa/konduto-sdk"></a>
+[![PyPI - License](https://img.shields.io/pypi/l/konduto-sdk)]("https://github.com/alefhsousa/konduto-sdk/blob/master/LICENSE")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/57e4534797c7416b86c20c4ec5d53067)](https://www.codacy.com/manual/alefhsousa/konduto-sdk?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alefhsousa/konduto-sdk&amp;utm_campaign=Badge_Grade)
+![PyPI - Status](https://img.shields.io/pypi/status/konduto-sdk)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/konduto-sdk)
+![PyPI](https://img.shields.io/pypi/v/konduto-sdk)
+
 A Python SDK for integrating with the [Konduto rest api][1]. Compatible with python 3.6+, this repo not is a official repository from Konduto.
 Feel free to contribute with the project.
 

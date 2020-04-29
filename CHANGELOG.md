@@ -1,6 +1,52 @@
 Changelog
 =========
 
+1.0.0 (2020-04-29)
+------------
+
+- Remove unnecessary classes and add missing order status. [Alefh Sousa]
+
+  Some classes were unnecessary to make the payload to send to konduto, this way I removed from the project.
+
+  Another change is in some corner cases of case sensitive to create KondutoOrderStatus or KondutoRecommentation based on the response from Konduto.
+
+  For the last, I added some missing KondutoOrderStatus like PENDING and NOT_ANALYZED when some order return this status broken the app because she can't parse the value
+
+- Change return methods to use Right and Left abstraction. [Alefh Sousa]
+
+  When you use the client is hard to verify whether the operation is a success or failure to check this was necessary to check the class type.
+
+  Now all operation that can be failed return a Union[Right, Left] this way:
+
+  Right is a successful operation and Left is a failure operation
+  
+- Add konduto prefix in all class. [Alefh Sousa]
+
+  To avoid ambiguous names when someone uses in your domain, for example, whether someone uses this SDK in e-commerce in the code is very possible that have:
+
+  Customer -> Domain
+  Customer -> Konduto
+
+  and when we read the code is very complex to understand the difference between the customer class.
+
+  with these changes the code is more legible:
+
+  Customer -> Domain
+  KondutoCustomer -> Konduto.
+  
+- Remove unnecessary classes and change all enums to lower case. [Alefh Sousa]
+- Set theme jekyll-theme-cayman. [Alefh Sousa]
+- Add folder for gh pages. [Alefh Sousa]
+- Fix workflow file from github actions. [Alefh Sousa]
+
+  When is created a workflow file in the GitHub actions, they not update this file anymore, this way when I created the file on pr #5 this wad a typo in the `releases` and broken the job. I fix this file in the pr, but GitHub not updated this file :(
+
+  I think this is a bug from GitHub actions and already an issue in the GitHub community https://github.community/t5/GitHub-Actions/Workflow-file-not-updating-anymore
+
+  To fix the problem I renamed the file and created new commit.
+- Remove release-pypi file from github actions workflows. [Alefh Sousa]
+
+
 
 0.1.0 (2020-04-06)
 ------------

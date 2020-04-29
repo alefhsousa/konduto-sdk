@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "konduto-sdk"
-version = "0.1.0"
+version = "1.0.0"
 description = "SDK to let the process easier to integrate your application with konduto rest API"
 authors = ["Alefh Sousa <alefh.sousa@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ keywords = ["konduto", "sdk", "api", "konduto SDK"]
 homepage = "https://github.com/alefhsousa/konduto-sdk"
 repository = "https://github.com/alefhsousa/konduto-sdk"
 classifiers=[
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Environment :: Web Environment',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, asdict
 from datetime import date
 from decimal import Decimal
-from typing import Optional, List
+from typing import Optional
 
 
 @dataclass
@@ -19,12 +19,3 @@ class KondutoProduct:
     @property
     def to_dict(self) -> [dict]:
         return asdict(self)
-
-
-@dataclass
-class KondutoShoppingCart:
-    shopping_cart: List[KondutoProduct]
-
-    @property
-    def to_dict(self) -> [dict]:
-        return [asdict(item) for item in self.shopping_cart]

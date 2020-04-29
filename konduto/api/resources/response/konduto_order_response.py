@@ -22,6 +22,10 @@ class KondutoRecommendation(Enum):
     DECLINE = 'decline'
     NONE = 'none'
 
+    @classmethod
+    def from_string(cls, enum_str: str):
+        return cls(str(enum_str).lower())
+
 
 @dataclass
 class KondutoDevice:

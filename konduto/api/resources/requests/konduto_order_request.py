@@ -8,7 +8,7 @@ from konduto.api.resources.konduto_address import KondutoAddress
 from konduto.api.resources.konduto_customer import KondutoCustomer
 from konduto.api.resources.konduto_payment import KondutoPayment
 from konduto.api.resources.konduto_seller import KondutoSeller
-from konduto.api.resources.konduto_shopping_cart import KondutoShoppingCart
+from konduto.api.resources.konduto_shopping_cart import KondutoProduct
 from konduto.api.resources.kondutotravel import KondutoTravel
 from konduto.infrastructure.json_enconder import JsonEncoder
 
@@ -16,14 +16,14 @@ from konduto.infrastructure.json_enconder import JsonEncoder
 @dataclass
 class KondutoOrderRequest:
     id: str
-    visitor: str
-    customer: KondutoCustomer
     total_amount: Decimal
+    customer: KondutoCustomer
+    visitor: Optional[str] = None
     analyze: Optional[bool] = True
     payment: Optional[List[KondutoPayment]] = None
     billing: Optional[KondutoAddress] = None
     shipping: Optional[KondutoAddress] = None
-    shopping_cart: Optional[KondutoShoppingCart] = None
+    shopping_cart: Optional[List[KondutoProduct]] = None
     tavel: Optional[KondutoTravel] = None
     shipping_amount: Optional[Decimal] = None
     tax_amount: Optional[Decimal] = None

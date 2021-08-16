@@ -12,4 +12,4 @@ class KondutoOrderStatusRequest:
 
     @property
     def json(self) -> str:
-        return json.dumps(self.__dict__)
+        return json.dumps(dict(status=self.status.value, comments=self.comments or ""))
